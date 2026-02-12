@@ -97,4 +97,9 @@ public class PlayerCompassItem extends CompassItem {
         }
         return null;
     }
+
+    @Override
+    public boolean isFoil(ItemStack stack) {
+        return true;
+    }
 }
