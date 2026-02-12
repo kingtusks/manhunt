@@ -19,7 +19,7 @@ public class ModCreativeModeTabs {
     public static final Supplier<CreativeModeTab> MANHUNT_ITEMS_TAB = CREATIVE_MODE_TAB.register(
             "manhunt_items_tab",
             () -> CreativeModeTab.builder()
-                    .icon(() -> new ItemStack(Items.COMPASS))
+                    .icon(() -> new ItemStack(ModItems.PLAYER_COMPASS.get()))
                     .title(Component.translatable("creativetab.manhunt.manhunt_items"))
                     .displayItems(((itemDisplayParameters, output) -> {
                         output.accept(ModItems.PLAYER_COMPASS);
