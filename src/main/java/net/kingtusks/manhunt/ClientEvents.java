@@ -16,6 +16,10 @@ import java.util.UUID;
 
 @EventBusSubscriber(modid = Manhunt.MODID, value = Dist.CLIENT)
 public class ClientEvents {
+    private static double rotation = Math.random();
+    private static double rota = Math.random();
+    private static long lastUpdateTime = 0;
+
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
@@ -25,15 +29,27 @@ public class ClientEvents {
                         if (entity == null) return 0.0f;
                         UUID targetUUID = getTargetPlayerUUID(stack);
                         if (targetUUID == null || level == null) {
-                            return (float) Math.random();
+                            return wobble(level, Math.random());
                         }
                         Player targetPlayer = level.getPlayerByUUID(targetUUID);
                         if (targetPlayer == null) {
-                            return (float) Math.random();
+                            return wobble(level, Math.random());
                         }
                         return getAngleToPlayer(entity, targetPlayer, level);
                     });
         });
+    }
+
+    private static float wobble(ClientLevel level, double target) {
+        long time = level.getGameTime();
+        if (time != lastUpdateTime) {
+            lastUpdateTime = time;
+            double delta = target - rota;
+            delta = Mth.positiveModulo(delta + 0.5, 1.0) - 0.5;
+            rota = Mth.positiveModulo(rota + delta * 0.1, 1.0);
+            rotation = Mth.lerp(0.5, rotation, rota);
+        }
+        return (float) rotation;
     }
 
     private static float getAngleToPlayer(Entity viewer, Player target, ClientLevel level) {
