@@ -1,5 +1,7 @@
 package net.kingtusks.manhunt;
 
+import net.kingtusks.manhunt.item.ModCreativeModeTabs;
+import net.kingtusks.manhunt.item.ModItems;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -37,7 +39,8 @@ public class Manhunt {
 
     public Manhunt(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
-
+        ModItems.register(modEventBus);
+        ModCreativeModeTabs.register(modEventBus);
         modEventBus.addListener(this::addCreative);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
@@ -45,8 +48,9 @@ public class Manhunt {
     private void commonSetup(FMLCommonSetupEvent event) {}
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        //if (event.getTabKey() == CreativeModeTabs.) {
-        //}
+        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+            event.accept(ModItems.PLAYER_COMPASS);
+        }
     }
 
     @SubscribeEvent

@@ -22,7 +22,7 @@ public class ModCreativeModeTabs {
                     .icon(() -> new ItemStack(Items.COMPASS))
                     .title(Component.translatable("creativetab.manhunt.manhunt_items"))
                     .displayItems(((itemDisplayParameters, output) -> {
-                        output.accept(ModItems.)//(add) item here
+                        output.accept(ModItems.PLAYER_COMPASS);
                     }))
                     .build()
     );
